@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-th-text="${loggedInUser.FName} + ' | Inventory'">Add Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Auto-detect system preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
+
+  <!-- Container -->
+  <div class="w-full max-w-4xl bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 sm:p-10">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100">➕ Add New Product</h1>
+      <a th:href="@{/user/dashboard}" 
+         class="text-white px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-800 transition">
+        ← Back
+      </a>
+    </div>
+
+    <div th:replace="message :: messagebox"></div>
+
+    <!-- Form -->
+    <form data-th-action="@{'/user/product/add'}" data-th-object="${productForm}" method="post" novalidate enctype="multipart/form-data" 
+          class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Product Name -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Product Name</label>
+        <input type="text" th:field="*{name}" required
+               placeholder="Enter product name"
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Company</label>
+        <input type="text" th:field="*{company}" required
+               placeholder="Enter company name"
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('company')}" th:errors="*{company}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Price -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Price (₹)</label>
+        <input type="number" step="0.01" th:field="*{price}" required
+               placeholder="Enter price"
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Quantity -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Quantity</label>
+        <input type="number" th:field="*{quantity}" required
+               placeholder="Enter quantity"
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Manufacturing Date -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Manufacturing Date (MFD)</label>
+        <input type="date" th:field="*{manufacturingDate}" required
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('manufacturingDate')}" th:errors="*{manufacturingDate}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Expiry Date -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Expiry Date</label>
+        <input type="date" th:field="*{expiryDate}" required
+               class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <p th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}" class="text-red-500 text-sm mt-1"></p>
+      </div>
+
+      <!-- Description -->
+      <div class="col-span-1 md:col-span-2">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">Description</label>
+        <textarea rows="4" th:field="*{description}"
+                  placeholder="Write product description here..."
+                  class="mt-2 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+      </div>
+
+      <!-- Buttons -->
+      <div class="col-span-1 md:col-span-2 flex justify-end gap-3 mt-6">
+        <button type="reset" 
+                class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+          Reset
+        </button>
+        <button type="submit" 
+                class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+          💾 Save Product
+        </button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

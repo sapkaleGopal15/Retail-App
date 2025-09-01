@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-full bg-gray-100 dark:bg-gray-900">
+<head>
+    <title>Search Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'media' };
+    </script>
+</head>
+<body class="h-full text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 p-4">
+
+<div class="max-w-7xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Search Products</h1>
+        <a th:href="@{/user/dashboard}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            &larr; Back
+        </a>
+    </div>
+
+    <input type="text" id="searchInput" placeholder="Search by name or company..."
+           class="w-full p-2 border border-gray-700 dark:bg-gray-800 dark:border-gray-600 rounded-lg mb-4">
+
+    <div class="overflow-x-auto rounded-lg">
+        <table class="min-w-full border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                    <th class="px-4 py-2 border dark:border-gray-600">ID</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Name</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Company</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Price</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Quantity</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Total Stock Price</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Manufacturing Date</th>
+                    <th class="px-4 py-2 border dark:border-gray-600">Expiry Data</th>
+                </tr>
+            </thead>
+            <tbody id="productTable">
+                <tr th:each="product : ${products}" class="text-center hover:bg-blue-50 dark:hover:bg-gray-700">
+                    <td th:text="${product.id}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.name}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.company}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.price}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.quantity}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.totalStockPrice}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.manufacturingDate}" class="px-4 py-2 border dark:border-gray-600"></td>
+                    <td th:text="${product.expiryDate}" class="px-4 py-2 border dark:border-gray-600"></td>
+                </tr>
+                <tr id="noProductsRow" class="text-center hidden bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200">
+                    <td colspan="8" class="px-4 py-2 border dark:border-gray-600">Product not found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#productTable tr");
+    rows.forEach(row => {
+        let name = row.cells[1].innerText.toLowerCase();
+        let company = row.cells[2].innerText.toLowerCase();
+        row.style.display = (name.includes(filter) || company.includes(filter)) ? "" : "none";
+    });
+});
+</script>
+</body>
+</html>
+
+
