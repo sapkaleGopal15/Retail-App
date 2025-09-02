@@ -34,7 +34,7 @@ public class UserForm {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "at list 1 special character and \n 1 UpperCase latter is must")
+    @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password legth minimum 8 character, at list 1 special character, 1 LowerCase letter, 1 UpperCase latter and 1 number is must")
     private String password;
 
     @NotBlank(message = "Phone number is required")
