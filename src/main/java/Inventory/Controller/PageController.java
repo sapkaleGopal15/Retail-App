@@ -28,12 +28,12 @@ public class PageController {
 
     @GetMapping("/")
     public String index(){
-        return "redirect:/home";
+        return "redirect:/index";
     }
 
-    @RequestMapping("/home")
+    @RequestMapping("/index")
     public String homePage() {
-        return "home";
+        return "index";
     }
 
     @RequestMapping("/register")
